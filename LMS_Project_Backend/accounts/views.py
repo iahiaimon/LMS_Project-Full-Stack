@@ -1,25 +1,26 @@
 from django.shortcuts import render
-from .models import CustomUser
-
 from django.http import HttpResponse
+
+from .models import CustomUser
+from .serializers import UserSerializer
+
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework import permissions
-from .serializers import UserSerializer
 
 # Create your views here.
 
 class UserView(APIView):
     def get(self , request):
         user = CustomUser.objects.all()
-        serializer = UserSerializer( user , many = True ).data
-        return Response(serializer)
+        serializers = UserSerializer( user , many = True ).data
+        return Response(serializers)
     
     def post(self , request):
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data , status=status.HTTP_201_CREATED)
+        serializers = UserSerializer(data=request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data , status=status.HTTP_201_CREATED)
         
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
