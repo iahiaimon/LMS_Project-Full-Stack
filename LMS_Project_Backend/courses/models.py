@@ -6,11 +6,11 @@ from categories.models import Category
 from django.core.exceptions import ValidationError
 
 # Create your models here.
-class Course(models.Model):
+class Course(BaseModel):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    price = models.DecimalField(decimal_places=2 , max_digits=2)
-    duration = models.DecimalField(decimal_places=2 , max_digits=2)
+    price = models.DecimalField(decimal_places=2 , max_digits=10)
+    duration = models.DecimalField(decimal_places=2 , max_digits=10)
     teacher_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     category_id = models.ForeignKey(Category , on_delete=models.CASCADE)
 
